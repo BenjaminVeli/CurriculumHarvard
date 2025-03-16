@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --font-stix: var(--font-stix-two-textf);
+  --color-link: #1155cc;
+  --color-h1: #191e55;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #a3a3a3;
+    border-radius: 5px;
+}
+  
+.container {
+  @apply mx-auto px-[1.5rem] lg:px-[2rem] relative 2xl:max-w-screen-xl;
+}
+
