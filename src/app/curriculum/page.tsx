@@ -30,7 +30,7 @@ const page = () => {
                             <div className="flex flex-wrap gap-4 justify-center max-w-[850px] mx-auto text-sm">
                                 <p id="direction">_____<span id="">,{" "}</span>______</p>
                                 <a href="https://www.linkedin.com/in/benjamin-jhosep-veli-mariano/" target="_blank" rel="noopener noreferrer" className="text-link underline" id="linkedin">linkedin.com/in/benjamin/</a>
-                                <p id="phone">+51 ___ ___ ___</p>
+                                <p id="phone">+__ ___ ___ ___</p>
                                 <p id="email">@_________________</p>
                             </div>
 

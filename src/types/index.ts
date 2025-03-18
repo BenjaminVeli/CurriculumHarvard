@@ -17,3 +17,8 @@ export interface HelpText {
     text1: string;
     text2?: string;
 }
+
+export interface InputCharCount {
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+    fieldName: string;
+}

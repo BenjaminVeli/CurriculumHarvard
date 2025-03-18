@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Inter } from "next/font/google";
 import Help from "../assets/icons/help.svg"
 import Modal from "./Modal";
-import { FormField } from "@/types";
+import { FormField, InputCharCount } from "@/types";
 
 const interFont = Inter({
     variable: "--font-inter",
@@ -17,6 +17,8 @@ const FormData = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [selectedField, setSelectedField] = useState<FormField | null>(null);
     const [currentStep, setCurrentStep] = useState<number>(0);
+    const [charCounts, setCharCounts] = useState<Record<string, number>>({});
+
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
@@ -51,45 +53,68 @@ const FormData = () => {
         setOpen(true);
     }
 
+    // Manejar el cambio en los inputs para contar caracteres
+    const handleInputChange = ({ e, fieldName }: InputCharCount) => {
+        const value = e.target.value;
+        setCharCounts(prev => ({
+            ...prev,
+            [fieldName]: value.length
+        }));
+    };
+
     return (
-        <div className={`${interFont.className}`}>
+        <div className={interFont.className}>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="flex flex-col gap-3">
-                    {currentFields.map((field) => (
-                        <div key={field.name} className="flex flex-col gap-3">
-                            <label htmlFor={field.name} className="text-zinc-950 text-sm/6 font-medium">
-                                {field.label}
-                            </label>
-                            <div className="flex items-center justify-between">
-                                {field.type === "textarea" ? (
-                                    <textarea
-                                        {...register(field.name)}
-                                        rows={4}
-                                        className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500 resize-none"
-                                        id={field.name}
-                                        name={field.name}
-                                    />
+                    {currentFields.map((field) => {
+                        const maxLength = parseInt(field.max || "0");
+                        const currentCount = charCounts[field.name] || 0;
+                        const isAtLimit = maxLength > 0 && currentCount >= maxLength;
 
-                                ) : (
-                                    <input
-                                        {...register(field.name)}
-                                        type={field.type}
-                                        className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500"
-                                        id={field.name}
-                                        name={field.name}
-                                    />
-                                )}
-                                {field.help && (
-                                    <button
-                                        type="button"
-                                        onClick={() => handleOpenHelp(field)}
-                                        className="bg-zinc-950 h-6 w-6 flex items-center justify-center rounded-full cursor-pointer hover:bg-h1 transition-colors duration-300">
-                                        <Help className="text-white h-4 w-4" />
-                                    </button>
+                        return (
+                            <div key={field.name} className="flex flex-col gap-3">
+                                <label htmlFor={field.name} className="text-zinc-950 text-sm/6 font-medium">
+                                    {field.label}
+                                </label>
+                                <div className="flex items-center justify-between">
+                                    {field.type === "textarea" ? (
+                                        <textarea
+                                            {...register(field.name, { maxLength: maxLength })}
+                                            rows={4}
+                                            className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500 resize-none"
+                                            id={field.name}
+                                            name={field.name}
+                                            maxLength={maxLength}
+                                            onChange={(e) => handleInputChange({ e, fieldName: field.name })}
+                                        />
+                                    ) : (
+                                        <input
+                                            {...register(field.name, { maxLength: maxLength })}
+                                            type={field.type}
+                                            className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500"
+                                            id={field.name}
+                                            name={field.name}
+                                            maxLength={maxLength}
+                                            onChange={(e) => handleInputChange({ e, fieldName: field.name })}
+                                        />
+                                    )}
+                                    {field.help && (
+                                        <button
+                                            type="button"
+                                            onClick={() => handleOpenHelp(field)}
+                                            className="bg-zinc-950 h-6 w-6 flex items-center justify-center rounded-full cursor-pointer hover:bg-h1 transition-colors duration-300">
+                                            <Help className="text-white h-4 w-4" />
+                                        </button>
+                                    )}
+                                </div>
+                                {maxLength > 0 && isAtLimit && (
+                                    <p className="text-sm/6 font-normal text-red-500">
+                                        {`Has alcanzado el límite de ${maxLength} caracteres`}
+                                    </p>
                                 )}
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
                 <Modal open={open} onClose={() => setOpen(false)}>
                     {selectedField && selectedField.help && (
