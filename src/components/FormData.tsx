@@ -1,12 +1,11 @@
 "use client";
 
-import { formSteps } from "@/constants"
-import { useForm } from "react-hook-form"
-import { useState } from "react"
 import { Inter } from "next/font/google";
 import Help from "../assets/icons/help.svg"
 import Modal from "./Modal";
-import { FormField, InputCharCount } from "@/types";
+import { useFormData } from "@/hooks/useFormData";
+import { useFormDataContext } from "./FormProvider";
+import React from "react";
 
 const interFont = Inter({
     variable: "--font-inter",
@@ -14,53 +13,19 @@ const interFont = Inter({
 })
 
 const FormData = () => {
-    const [open, setOpen] = useState<boolean>(false);
-    const [selectedField, setSelectedField] = useState<FormField | null>(null);
-    const [currentStep, setCurrentStep] = useState<number>(0);
-    const [charCounts, setCharCounts] = useState<Record<string, number>>({});
+    const { setAllValues } = useFormDataContext();
+    const { register, handleSubmit, watch, open, setOpen, charCounts, currentFields, currentStep, selectedField, formSteps,
+        handleNext, handlePrevious, handleInputChange, handleOpenHelp, onSubmit } = useFormData();
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    React.useEffect(() => {
+        // This will only update the context when form values actually change
+        const subscription = watch((value) => {
+            setAllValues(value);
+        });
 
-    const onSubmit = (data) => {
-        console.log(data);
-        // Aquí puedes manejar el envío final del formulario
-    }
-
-    // Obtener los campos del paso actual
-    const currentFields = formSteps[currentStep]?.fields || [];
-
-    // Manejar el botón siguiente
-    const handleNext = () => {
-        // Si hay más pasos, avanza
-        if (currentStep < formSteps.length - 1) {
-            setCurrentStep(prevStep => prevStep + 1);
-        } else {
-            // Si es el último paso, envía el formulario
-            handleSubmit(onSubmit)();
-        }
-    }
-
-    // Manejar el botón anterior
-    const handlePrevious = () => {
-        if (currentStep > 0) {
-            setCurrentStep(prevStep => prevStep - 1);
-        }
-    }
-
-    // Manejar la apertura del modal de ayuda
-    const handleOpenHelp = (field: FormField) => {
-        setSelectedField(field);
-        setOpen(true);
-    }
-
-    // Manejar el cambio en los inputs para contar caracteres
-    const handleInputChange = ({ e, fieldName }: InputCharCount) => {
-        const value = e.target.value;
-        setCharCounts(prev => ({
-            ...prev,
-            [fieldName]: value.length
-        }));
-    };
+        // Clean up subscription
+        return () => subscription.unsubscribe();
+    }, [watch, setAllValues]);
 
     return (
         <div className={interFont.className}>
@@ -79,23 +44,26 @@ const FormData = () => {
                                 <div className="flex items-center justify-between">
                                     {field.type === "textarea" ? (
                                         <textarea
-                                            {...register(field.name, { maxLength: maxLength })}
+                                            {...register(field.name, {
+                                                maxLength: maxLength,
+                                                onChange: (e) => handleInputChange({ e, fieldName: field.name })
+                                            })}
                                             rows={4}
                                             className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500 resize-none"
                                             id={field.name}
-                                            name={field.name}
                                             maxLength={maxLength}
-                                            onChange={(e) => handleInputChange({ e, fieldName: field.name })}
                                         />
                                     ) : (
                                         <input
-                                            {...register(field.name, { maxLength: maxLength })}
-                                            type={field.type}
+                                            {...register(field.name, {
+                                                maxLength: maxLength,
+                                                onChange: (e) => handleInputChange({ e, fieldName: field.name })
+                                            })}
                                             className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500"
                                             id={field.name}
-                                            name={field.name}
+                                            type={field.type}
                                             maxLength={maxLength}
-                                            onChange={(e) => handleInputChange({ e, fieldName: field.name })}
+
                                         />
                                     )}
                                     {field.help && (

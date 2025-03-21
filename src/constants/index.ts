@@ -28,7 +28,7 @@ export const formSteps = [
                     text1: "Ingresa la URL de tu perfil de LinkedIn.",
                     text2: "Ejemplo: https://www.linkedin.com/in/reidhoffman/",
                 },
-                max: "",
+                max: "100",
             },
             {
                 name: "phone",

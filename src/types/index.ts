@@ -22,3 +22,10 @@ export interface InputCharCount {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
     fieldName: string;
 }
+
+export interface FormContextType {
+    // 1er String -> representa la key del objeto ejmpl: phone
+    // 2do String -> representa el valor del objeto ejmpl: 987654321
+    allValues: Record<string, string | null>;
+    setAllValues: React.Dispatch<React.SetStateAction<Record<string, string | null>>>;
+}
