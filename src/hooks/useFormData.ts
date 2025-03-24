@@ -9,10 +9,9 @@ export const useFormData = () => {
     const [selectedField, setSelectedField] = useState<FormField | null>(null);
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [charCounts, setCharCounts] = useState<Record<string, number>>({});
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = () => {
         // Aquí puedes manejar el envío final del formulario
     }
 

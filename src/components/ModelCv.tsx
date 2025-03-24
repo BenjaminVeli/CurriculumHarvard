@@ -10,28 +10,37 @@ const ModelCv = () => {
     const linkedinUrl = linkedinCode.startsWith("http")
         ? linkedinCode // Si ya es una URL completa, úsala directamente
         : `${linkedinBaseUrl}${linkedinCode}`; // Construir la URL completa
-        
+
     // Mostrar siempre "/in/" seguido del código ingresado
     const linkedinDisplay = linkedinCode.startsWith("http")
         ? `/in/${linkedinCode.replace(linkedinBaseUrl, "")}` // Extraer el código y agregar "/in/"
         : `/in/${linkedinCode}`; // Mostrar "/in/" seguido del código ingresado
 
+    // Formatear la fecha en formato "mes año"
+    const formatDate = (dateString: string) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" })
+            .format(date)
+            .replace(/^\w/, (c) => c.toUpperCase()); // Capitaliza la primera letra
+    };
+
     return (
-        <div id="curriculum_vitae" className="md:col-span-2 col-span-full overflow-auto h-[800px]">
+        <div id="curriculum_vitae" className="md:col-span-2 col-span-full overflow-y-auto h-[800px] w-full">
             <header className="">
                 <p className="font-bold text-2xl text-center">{allValues.nameLastname || "_____________________"}</p>
 
                 {/* Contact Info */}
                 <div className="flex flex-wrap gap-4 justify-center max-w-[850px] mx-auto text-sm">
-                    <p id="direction">{allValues.city || "_____"}<span id="">,{" "}{allValues.country || "_____"}</span><span className="font-bold text-base">{" "}·</span></p>
+                    <p >{allValues.city || "_____"}<span >,{" "}{allValues.country || "_____"}</span><span className="font-bold text-base">{" "}·</span></p>
                     <a href={linkedinUrl} target="_blank" rel="noopener noreferrer"><span className="text-link underline">{linkedinDisplay || "____________"}</span><span className="font-bold text-base">{" "}·</span></a>
-                    <p>+__ ___ ___ ___<span className="font-bold text-base">{" "}·</span></p>
-                    <p>_________________</p>
+                    <p>{allValues.phone || "+__ ___ ___ ___"}<span className="font-bold text-base">{" "}·</span></p>
+                    <p>{allValues.email || "_________________"}</p>
                 </div>
 
                 {/* Profile Summary */}
                 <div className="pt-3 pb-4 border-t border-black">
-                    <p className="italic text-sm px-4" id="profile-summary">Más de 2 años de experiencia como Desarrollador de Software. Lideré el desarrollo de Exploratec, implementando un recorrido virtual en 360° que facilitó las visitas presenciales al campus de Tecsup, ayudando a un 30% de los nuevos estudiantes a orientarse y explorar el campus de manera eficiente.</p>
+                    <p className="italic text-sm px-4 text-center">{allValues.profileSummary || "_______________________________________"}</p>
                 </div>
             </header>
 
@@ -42,48 +51,41 @@ const ModelCv = () => {
                     <h2 className="font-bold text-base uppercase border-b border-black px-4">Experiencia profesional</h2>
                     <article className="py-3 px-4">
                         <div className="grid sm:grid-cols-2 grid-cols-1">
-                            <h3 id="company" className="font-bold">Tecsup</h3>
-                            <p id="country" className="flex text-left md:justify-end justify-start font-bold">Lima Peru</p>
-                            <p id="" className="">Full Stack</p>
-                            <p id="" className="flex text-left md:justify-end justify-start">Marzo 2024–Diciembre 2024</p>
+                            <h3 className="font-bold">{allValues.experience1 || "________"}</h3>
+                            <p className="flex text-left md:justify-end justify-start font-bold">{allValues.experience1_city || "______"},{" "}{allValues.experience1_country || "______"}</p>
+                            <p className="">{allValues.role1 || "______"}</p>
+                            <p className="flex text-left md:justify-end justify-start italic">{allValues.experience1_start_date ? formatDate(allValues.experience1_start_date) : "__________"}–{allValues.experience1_end_date ? formatDate(allValues.experience1_end_date) : "__________"}</p>
                         </div>
-                        <ul className="list-disc pt-1">
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
-                            </li>
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
-                            </li>
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
-                            </li>
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
-                            </li>
+                        <ul className="list-disc pt-1 break-words">
+                            <li className="md:pr-14 mx-6">{allValues.experience1_activity1 || "____________________________________"}</li>
+                            <li className="md:pr-14 mx-6">{allValues.experience1_activity2 || "____________________________________"}</li>
+                            <li className="md:pr-14 mx-6">{allValues.experience1_activity3 || "____________________________________"}</li>
+                            <li className="md:pr-14 mx-6">{allValues.experience1_activity4 || "____________________________________"}</li>
                         </ul>
                     </article>
 
                     <article className="py-3 px-4">
                         <div className="grid sm:grid-cols-2 grid-cols-1">
-                            <h3 id="company" className="font-bold">Tecsup</h3>
-                            <p id="country" className="flex text-left md:justify-end justify-start font-bold">Lima Peru</p>
-                            <p id="" className="">Full Stack</p>
-                            <p id="" className="flex text-left md:justify-end justify-start">Marzo 2024–Diciembre 2024</p>
+                            <h3 className="font-bold">{allValues.experience2 || "________"}</h3>
+                            <p className="flex text-left md:justify-end justify-start font-bold">{allValues.experience2_city || "______"},{" "}{allValues.experience2_country || "______"}</p>
+                            <p className="">{allValues.role2 || "______"}</p>
+                            <p className="flex text-left md:justify-end justify-start italic">{allValues.experience2_start_date ? formatDate(allValues.experience2_start_date) : "__________"}–{allValues.experience2_end_date ? formatDate(allValues.experience2_end_date) : "__________"}</p>
                         </div>
-                        <ul className="list-disc pt-1">
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
-                            </li>
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
-                            </li>
+                        <ul className="list-disc pt-1 break-words">
+                            <li className="md:pr-14 mx-6">{allValues.experience2_activity1 || "____________________________________"}</li>
+                            <li className="md:pr-14 mx-6">{allValues.experience2_activity2 || "____________________________________"}</li>
                         </ul>
                     </article>
 
                     <article className="py-3 px-4">
                         <div className="grid sm:grid-cols-2 grid-cols-1">
-                            <h3 id="company" className="font-bold">Tecsup</h3>
-                            <p id="country" className="flex text-left md:justify-end justify-start font-bold">Lima Peru</p>
-                            <p id="" className="">Full Stack</p>
-                            <p id="" className="flex text-left md:justify-end justify-start">Marzo 2024–Diciembre 2024</p>
+                            <h3 className="font-bold">{allValues.experience3 || "________"}</h3>
+                            <p className="flex text-left md:justify-end justify-start font-bold">{allValues.experience3_city || "______"},{" "}{allValues.experience3_country || "______"}</p>
+                            <p className="">{allValues.role3 || "______"}</p>
+                            <p className="flex text-left md:justify-end justify-start italic">{allValues.experience3_start_date ? formatDate(allValues.experience3_start_date) : "__________"}–{allValues.experience3_end_date ? formatDate(allValues.experience3_end_date) : "__________"}</p>
                         </div>
-                        <ul className="list-disc pt-1">
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
-                            </li>
+                        <ul className="list-disc pt-1 break-words">
+                            <li className="md:pr-14 mx-6">{allValues.experience3_activity1 || "____________________________________"}</li>
                         </ul>
                     </article>
                 </section>
@@ -93,10 +95,10 @@ const ModelCv = () => {
                     <h2 className="font-bold text-base uppercase border-b border-black px-4">Educación</h2>
                     <article className="py-3 px-4">
                         <div className="grid sm:grid-cols-2 grid-cols-1">
-                            <h3 id="studyhouse" className="font-bold uppercase">Instituto de Educación Privado TECSUP</h3>
-                            <p id="country" className="flex text-left md:justify-end justify-start font-bold">Lima Peru</p>
-                            <p id="profession" className="">Diseñador y Desarrollador de Software</p>
-                            <p id="completiondate" className="flex text-left md:justify-end justify-start">Diciembre 2024</p>
+                            <h3 className="font-bold uppercase">{allValues.studycenter || "__________________________________"}</h3>
+                            <p className="flex text-left md:justify-end justify-start font-bold">{allValues.studycenter_city || "_____"},{" "}{allValues.studycenter_country || "_____"}</p>
+                            <p className="">{allValues.specialty || "__________________________________"}</p>
+                            <p className="flex text-left md:justify-end justify-start italic">{allValues.graduation_date ? formatDate(allValues.graduation_date) : "__________"}</p>
                         </div>
                     </article>
                 </section>
@@ -106,9 +108,9 @@ const ModelCv = () => {
                     <h2 className="font-bold text-base uppercase border-b border-black px-4">Skills adicionales</h2>
                     <article className="py-3 px-4">
                         <ul className="list-disc pt-1">
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
+                            <li className="md:pr-14 mx-6">{allValues.skill1 || "_____________________________________"}
                             </li>
-                            <li className="md:pr-14 mx-6">Diseñé y desarrollé una plataforma web de recorrido virtual para el campus de la sede Lima de Tecsup, permitiendo a futuros estudiantes conocer el campus de manera remota.
+                            <li className="md:pr-14 mx-6">{allValues.skill2 || "_____________________________________"}
                             </li>
                         </ul>
                     </article>

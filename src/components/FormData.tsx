@@ -28,9 +28,9 @@ const FormData = () => {
     }, [watch, setAllValues]);
 
     return (
-        <div className={interFont.className}>
+        <div className={`${interFont.className} overflow-y-auto h-[600px]`}>
             <form onSubmit={handleSubmit(onSubmit)} className="">
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 px-1">
                     {currentFields.map((field) => {
                         const maxLength = parseInt(field.max || "0");
                         const currentCount = charCounts[field.name] || 0;
@@ -49,17 +49,30 @@ const FormData = () => {
                                                 onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                             })}
                                             rows={4}
-                                            className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500 resize-none"
+                                            className="relative px-3 py-1 rounded-lg w-10/12 md:w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500 resize-none"
                                             id={field.name}
                                             maxLength={maxLength}
                                         />
+                                    ) : field.type === "date" ? (
+                                        <input
+                                            {...register(field.name, {
+                                                maxLength: maxLength,
+                                                onChange: (e) => handleInputChange({ e, fieldName: field.name })
+                                            })}
+                                            className="relative px-3 py-1 rounded-lg w-10/12 md:w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500"
+                                            id={field.name}
+                                            type={field.type}
+                                            maxLength={maxLength}
+                                        >
+                                        </input>
+
                                     ) : (
                                         <input
                                             {...register(field.name, {
                                                 maxLength: maxLength,
                                                 onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                             })}
-                                            className="relative px-3 py-1 rounded-lg w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500"
+                                            className="relative px-3 py-1 rounded-lg w-10/12 md:w-11/12 text-sm/6 border border-gray-300 text-zinc-950 focus:outline-2 focus:outline-blue-500"
                                             id={field.name}
                                             type={field.type}
                                             maxLength={maxLength}
@@ -98,7 +111,7 @@ const FormData = () => {
                         </div>
                     )}
                 </Modal>
-                <div className="flex justify-between mt-4">
+                <div className="flex justify-between mt-4 px-1">
                     {currentStep > 0 ? (
                         <button
                             type="button"
