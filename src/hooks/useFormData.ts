@@ -9,7 +9,7 @@ export const useFormData = () => {
     const [selectedField, setSelectedField] = useState<FormField | null>(null);
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [charCounts, setCharCounts] = useState<Record<string, number>>({});
-    const { register, handleSubmit, watch } = useForm();
+    const { register, handleSubmit, watch, trigger, formState: { errors } } = useForm();
 
     const onSubmit = () => {
         // Aquí puedes manejar el envío final del formulario
@@ -25,13 +25,19 @@ export const useFormData = () => {
     const currentFields = formSteps[currentStep]?.fields || [];
 
     // Manejar el botón siguiente
-    const handleNext = () => {
-        // Si hay más pasos, avanza
-        if (currentStep < formSteps.length - 1) {
-            setCurrentStep(prevStep => prevStep + 1);
-        } else {
-            // Si es el último paso, envía el formulario
-            handleSubmit(onSubmit)();
+    const handleNext = async () => {
+        // Validación de los campos del paso actual
+        const currentStepFields = currentFields.map(field => field.name);
+        const isStepValid = await trigger(currentStepFields);
+
+        // Si la validación pasa, avanza al siguiente paso
+        if (isStepValid) {
+            if (currentStep < formSteps.length - 1) {
+                setCurrentStep(prevStep => prevStep + 1);
+            } else {
+                // Si es el último paso, envía el formulario
+                handleSubmit(onSubmit)();
+            }
         }
     }
 
@@ -55,6 +61,7 @@ export const useFormData = () => {
         register,
         handleSubmit,
         watch,
+        errors,
 
         open,
         setOpen,

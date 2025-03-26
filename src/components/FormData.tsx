@@ -14,7 +14,7 @@ const interFont = Inter({
 
 const FormData = () => {
     const { setAllValues } = useFormDataContext();
-    const { register, handleSubmit, watch, open, setOpen, charCounts, currentFields, currentStep, selectedField, formSteps,
+    const { register, handleSubmit, watch, open, setOpen, charCounts, currentFields, currentStep, selectedField, formSteps, errors,
         handleNext, handlePrevious, handleInputChange, handleOpenHelp, onSubmit } = useFormData();
 
     React.useEffect(() => {
@@ -35,6 +35,7 @@ const FormData = () => {
                         const maxLength = parseInt(field.max || "0");
                         const currentCount = charCounts[field.name] || 0;
                         const isAtLimit = maxLength > 0 && currentCount >= maxLength;
+                        const fieldError = errors[field.name];
 
                         return (
                             <div key={field.name} className="flex flex-col gap-3">
@@ -45,6 +46,7 @@ const FormData = () => {
                                     {field.type === "textarea" ? (
                                         <textarea
                                             {...register(field.name, {
+                                                required: field.required,
                                                 maxLength: maxLength,
                                                 onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                             })}
@@ -56,6 +58,7 @@ const FormData = () => {
                                     ) : field.type === "date" ? (
                                         <input
                                             {...register(field.name, {
+                                                required: field.required,
                                                 maxLength: maxLength,
                                                 onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                             })}
@@ -69,6 +72,7 @@ const FormData = () => {
                                     ) : (
                                         <input
                                             {...register(field.name, {
+                                                required: field.required ? "Este campo es obligatorio" : false,
                                                 maxLength: maxLength,
                                                 onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                             })}
@@ -88,6 +92,11 @@ const FormData = () => {
                                         </button>
                                     )}
                                 </div>
+                                {fieldError && (
+                                    <p className="text-sm/6 font-normal text-red-500">
+                                        Este campo es obligatorio
+                                    </p>
+                                )}
                                 {maxLength > 0 && isAtLimit && (
                                     <p className="text-sm/6 font-normal text-red-500">
                                         {`Has alcanzado el límite de ${maxLength} caracteres`}

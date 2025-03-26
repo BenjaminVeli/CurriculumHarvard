@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DM_Sans } from "next/font/google";
+import { Manrope } from "next/font/google";
 
-const DmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const FManrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
 })
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${DmSans.className}`}
+        className={`${FManrope.className}`}
       >
         {children}
       </body>

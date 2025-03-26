@@ -4,26 +4,32 @@
   --font-stix: var(--font-stix-two-textf);
   --color-link: #1155cc;
   --color-h1: #191e55;
+  --color-softWhite: #fefdfa;
+  --color-deepBlack: #040404;
 }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 7.5px;
+  width: 7.5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #fff;
-    border-radius: 5px;
+  background: #fff;
+  border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #a3a3a3;
-    border-radius: 5px;
+  background: #a3a3a3;
+  border-radius: 5px;
 }
-  
+
 .container {
   @apply mx-auto px-[1.5rem] lg:px-[2rem] relative 2xl:max-w-screen-xl;
 }
 
+.custom-blur {
+  @apply blur;
+  filter: blur(100px);
+}
