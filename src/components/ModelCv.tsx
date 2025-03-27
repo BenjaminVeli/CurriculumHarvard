@@ -1,9 +1,6 @@
 "use client";
 
-import { useRef } from "react";
 import { useFormDataContext } from "./FormProvider";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 
 const ModelCv = () => {
     const { allValues } = useFormDataContext();
@@ -28,26 +25,8 @@ const ModelCv = () => {
             .replace(/^\w/, (c) => c.toUpperCase()); // Capitaliza la primera letra
     };
 
-
-    const cvRef = useRef<HTMLDivElement>(null);
-
-    const generatePDF = async () => {
-        if (!cvRef.current) return;
-
-        const canvas = await html2canvas(cvRef.current, { scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        const imgWidth = 210; // A4 width in mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-        pdf.save("Curriculum.pdf");
-    };
-
-
-
     return (
-        <div ref={cvRef} id="curriculum_vitae" className="md:col-span-2 col-span-full overflow-y-auto h-[800px] w-full">
+        <div id="curriculum_vitae" className="md:col-span-2 col-span-full overflow-y-auto h-[800px] w-full">
             <header className="">
                 <p className="font-bold text-2xl text-center">{allValues.nameLastname || "_____________________"}</p>
 
@@ -136,13 +115,6 @@ const ModelCv = () => {
                         </ul>
                     </article>
                 </section>
-
-                <button
-                    onClick={generatePDF}
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white font-bold rounded"
-                >
-                    Generar PDF
-                </button>
             </main>
         </div>
     )

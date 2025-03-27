@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FormField, InputCharCount } from "@/types";
 import { formSteps } from "@/constants";
 import { useForm } from "react-hook-form"
@@ -10,6 +10,7 @@ export const useFormData = () => {
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [charCounts, setCharCounts] = useState<Record<string, number>>({});
     const { register, handleSubmit, watch, trigger, formState: { errors } } = useForm();
+    const [showPDFGenerator, setShowPDFGenerator] = React.useState(false);
 
     const onSubmit = () => {
         // Aquí puedes manejar el envío final del formulario
@@ -23,6 +24,15 @@ export const useFormData = () => {
 
     // Obtener los campos del paso actual
     const currentFields = formSteps[currentStep]?.fields || [];
+
+    // Manejar el cambio en los inputs para contar caracteres
+    const handleInputChange = ({ e, fieldName }: InputCharCount) => {
+        const value = e.target.value;
+        setCharCounts(prev => ({
+            ...prev,
+            [fieldName]: value.length
+        }));
+    };
 
     // Manejar el botón siguiente
     const handleNext = async () => {
@@ -48,13 +58,12 @@ export const useFormData = () => {
         }
     }
 
-    // Manejar el cambio en los inputs para contar caracteres
-    const handleInputChange = ({ e, fieldName }: InputCharCount) => {
-        const value = e.target.value;
-        setCharCounts(prev => ({
-            ...prev,
-            [fieldName]: value.length
-        }));
+    const handleFinalStep = () => {
+        if (currentStep === formSteps.length - 1) {
+            setShowPDFGenerator(true);
+        } else {
+            handleNext();
+        }
     };
 
     return {
@@ -71,10 +80,10 @@ export const useFormData = () => {
         selectedField,
         formSteps,
         onSubmit,
-
+        showPDFGenerator,
 
         handleOpenHelp,
-        handleNext,
+        handleFinalStep,
         handlePrevious,
         handleInputChange
     }

@@ -18,7 +18,7 @@ const page = () => {
         <FormDataProvider>
             <div className={`${geistStix.className} min-h-screen flex items-center`}>
                 <div className="container">
-                    <h1 className="text-center font-bold text-3xl md:text-4xl my-5 text-h1">Currículum Harvard</h1>
+                    <h1 className="text-center font-bold text-3xl md:text-4xl my-8 sm:my-6 text-h1">Currículum Harvard</h1>
                     <div className="grid grid-cols-3 gap-8">
                         <div className="md:col-span-1 col-span-full">
                             <FormData />

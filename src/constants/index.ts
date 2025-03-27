@@ -337,7 +337,7 @@ export const formSteps = [
                     text2: "Ejemplo: Creación de contenido sobre programación en redes sociales."
                 },
                 max: "100",
-                required: true
+                required: false
             },
             {
                 name: "skill2",
