@@ -28,7 +28,7 @@ export const formSteps = [
                 label: "LinkedIn :",
                 type: "text",
                 help: {
-                    text1: "Ingresa la URL de tu perfil de LinkedIn.",
+                    text1: "Ingresa la URL de tu perfil de LinkedIn. Te recomiendo personalizarla para que sea más profesional.",
                     text2: "Ejemplo: https://www.linkedin.com/in/reidhoffman/",
                 },
                 max: "100",

@@ -1,32 +1,13 @@
 "use client";
 
-import { useFormDataContext } from "./FormProvider";
+import useModelCv from "@/hooks/useModelCv";
 
 const ModelCv = () => {
-    const { allValues } = useFormDataContext();
 
-    const linkedinBaseUrl = "https://www.linkedin.com/in/";
-    const linkedinCode = allValues.linkedin || ""; // Código ingresado por el usuario
-    const linkedinUrl = linkedinCode.startsWith("http")
-        ? linkedinCode // Si ya es una URL completa, úsala directamente
-        : `${linkedinBaseUrl}${linkedinCode}`; // Construir la URL completa
-
-    // Mostrar siempre "/in/" seguido del código ingresado
-    const linkedinDisplay = linkedinCode.startsWith("http")
-        ? `/in/${linkedinCode.replace(linkedinBaseUrl, "")}` // Extraer el código y agregar "/in/"
-        : `/in/${linkedinCode}`; // Mostrar "/in/" seguido del código ingresado
-
-    // Formatear la fecha en formato "mes año"
-    const formatDate = (dateString: string) => {
-        if (!dateString) return "";
-        const date = new Date(dateString);
-        return new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" })
-            .format(date)
-            .replace(/^\w/, (c) => c.toUpperCase()); // Capitaliza la primera letra
-    };
+    const { allValues, linkedinUrl, linkedinDisplay, formatDate } = useModelCv();
 
     return (
-        <div id="curriculum_vitae" className="md:col-span-2 col-span-full overflow-y-auto h-[800px] w-full">
+        <div id="curriculum_vitae" className="md:col-span-2 col-span-full overflow-y-auto h-[800px] w-full md:block hidden">
             <header className="">
                 <p className="font-bold text-2xl text-center">{allValues.nameLastname || "_____________________"}</p>
 

@@ -1,82 +1,174 @@
 "use client"
-
 import React from 'react';
-import jsPDF from 'jspdf';
+import { pdf } from '@react-pdf/renderer';
+import { Document, Page, Text, Link, StyleSheet, View } from '@react-pdf/renderer';
 import Pdf from "../assets/icons/pdf.svg"
+import useModelCv from '@/hooks/useModelCv';
 
-import { useFormDataContext } from "./FormProvider";
+const styles = StyleSheet.create({
+    page: {
+        padding: 30,
+        flexDirection: 'column',
+    },
+    header: {
+        fontSize: 24,
+        textAlign: 'center',
+        marginBottom: 8,
+    },
+    title: {
+        fontSize: 12,
+        textAlign: 'left',
+        marginBottom: 8,
+        fontWeight: 'bold',
+    },
+    experienceContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 3,
+    },
+    subTitle: {
+        fontSize: 11,
+        fontWeight: 'bold',
+    },
+    text: {
+        fontSize: 11,
+        textAlign: 'left',
+        marginBottom: 5,
+    },
+    resume: {
+        fontSize: 10.5,
+        textAlign: 'left',
+        marginBottom: 8,
+        fontStyle: 'italic',
+    },
+    contactInfo: {
+        fontSize: 11,
+        textAlign: 'center',
+        marginBottom: 8,
+    },
+    link: {
+        fontSize: 11,
+        color: '#1155cc',
+    }
+});
 
 const PDFGenerator = () => {
+    const { allValues, linkedinUrl, linkedinDisplay, formatDate } = useModelCv();
 
-    const { allValues } = useFormDataContext();
+    const generatePDF = async () => {
+        const doc = (
+            <Document>
+                <Page size="A4" style={styles.page}>
+                    <Text style={styles.header}>{allValues.nameLastname || '_____________________'}</Text>
+                    <Text style={styles.contactInfo}>
+                        {`${allValues.city || '___'}, ${allValues.country || '___'} · ${allValues.phone || '___'} · ${allValues.email || '___'} · `}
+                        <Link src={linkedinUrl} style={styles.link}>
+                            {linkedinDisplay}
+                        </Link>
+                    </Text>
+                    {/* Un linea aca */}
+                    <Text style={styles.resume}>{allValues.profileSummary || '_____'}</Text>
+                    {/* Un linea aca */}
+                    <Text style={styles.title}>EXPERIENCIA PROFESIONAL</Text>
 
-    const generatePDF = () => {
-        // Crea un nuevo documento PDF
-        const doc = new jsPDF({
-            orientation: 'p',
-            unit: 'mm',
-            format: 'a4',
-        });
 
-        const pageWidth = doc.internal.pageSize.getWidth();
+                    {/* EXPERIENCE 1 */}
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.subTitle}>{allValues.experience1 || '_____'}</Text>
+                        <Text style={styles.subTitle}>
+                            {`${allValues.experience1_city || '_____'}, ${allValues.experience1_country || '_____'}`}
+                        </Text>
+                    </View>
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.text}>{allValues.role1 || '_____'}</Text>
+                        <Text style={styles.text}>
+                            {`${allValues.experience1_start_date ? formatDate(allValues.experience1_start_date) : "__________"} – ${allValues.experience1_end_date ? formatDate(allValues.experience1_end_date) : "__________"}`}
+                        </Text>
+                    </View>
 
-        doc.setFontSize(24);
-        doc.setFont('helvetica', 'bold');
-        doc.text(allValues.nameLastname || '_____________________', pageWidth / 2, 20, {
-            align: 'center'
-        });
+                    <Text style={styles.text}>{allValues.experience1_activity1 || '_____'}</Text>
+                    <Text style={styles.text}>{allValues.experience1_activity2 || '_____'}</Text>
+                    <Text style={styles.text}>{allValues.experience1_activity3 || '_____'}</Text>
+                    <Text style={styles.text}>{allValues.experience1_activity4 || '_____'}</Text>
+                    {/*--------------*/}
 
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
-        doc.text((allValues.city || '___') + ', ' + (allValues.country || '___') + ' ·' + ' ' + (allValues.phone || '___') + ' ·' + ' ' + (allValues.email || '___'), pageWidth / 2, 27, {
-            align: 'center'
-        });
 
-        doc.setFont('helvetica', 'bold');
-        doc.text('Empresa Proveedora:', 20, 50);
-        doc.setFont('helvetica', 'normal');
-        doc.text('Soluciones Tecnológicas S.A.', 20, 57);
 
-        doc.setFont('helvetica', 'bold');
-        doc.text('Cliente:', 20, 70);
-        doc.setFont('helvetica', 'normal');
-        doc.text('[Nombre del Cliente]', 20, 77);
 
-        // Cláusulas del contrato
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text('1. Objeto del Contrato', 20, 100);
+                    {/* EXPERIENCE 2 */}
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.subTitle}>{allValues.experience2 || '_____'}</Text>
+                        <Text style={styles.subTitle}>
+                            {`${allValues.experience2_city || '_____'}, ${allValues.experience2_country || '_____'}`}
+                        </Text>
+                    </View>
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.text}>{allValues.role2 || '_____'}</Text>
+                        <Text style={styles.text}>
+                            {`${allValues.experience2_start_date ? formatDate(allValues.experience2_start_date) : "__________"} – ${allValues.experience2_end_date ? formatDate(allValues.experience2_end_date) : "__________"}`}
+                        </Text>
+                    </View>
 
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
-        doc.text('El presente contrato tiene por objeto la prestación de', 20, 110);
-        doc.text('servicios de consultoría tecnológica.', 20, 117);
+                    <Text style={styles.text}>{allValues.experience2_activity1 || '_____'}</Text>
+                    <Text style={styles.text}>{allValues.experience2_activity2 || '_____'}</Text>
+                    {/*--------------*/}
 
-        // Duración
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text('2. Duración', 20, 140);
 
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
-        doc.text('El contrato tendrá una vigencia de 12 meses a partir', 20, 150);
-        doc.text('de la fecha de firma.', 20, 157);
 
-        // Condiciones Económicas
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text('3. Condiciones Económicas', 20, 180);
 
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
-        doc.text('La tarifa mensual por servicios será de $5,000 más IVA.', 20, 190);
+                    {/* EXPERIENCE 3 */}
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.subTitle}>{allValues.experience3 || '_____'}</Text>
+                        <Text style={styles.subTitle}>
+                            {`${allValues.experience3_city || '_____'}, ${allValues.experience3_country || '_____'}`}
+                        </Text>
+                    </View>
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.text}>{allValues.role3 || '_____'}</Text>
+                        <Text style={styles.text}>
+                            {`${allValues.experience3_start_date ? formatDate(allValues.experience3_start_date) : "__________"} – ${allValues.experience3_end_date ? formatDate(allValues.experience3_end_date) : "__________"}`}
+                        </Text>
+                    </View>
 
-        // Firmas
-        doc.text('Firma Representante Legal', 20, 250);
-        doc.text('Fecha: ' + new Date().toLocaleDateString(), 20, 260);
+                    <Text style={styles.text}>{allValues.experience3_activity1 || '_____'}</Text>
+                    {/*--------------*/}
 
-        // Guardar PDF
-        doc.save('CV.pdf');
+
+
+
+
+                    <Text style={styles.title}>EDUCACIÓN</Text>
+                    {/* Un linea aca */}
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.subTitle}>{allValues.studycenter || '_____'}</Text>
+                        <Text style={styles.subTitle}>
+                            {`${allValues.studycenter_city || '_____'}, ${allValues.studycenter_country || '_____'}`}
+                        </Text>
+                    </View>
+                    <View style={styles.experienceContainer}>
+                        <Text style={styles.text}>{allValues.role3 || '_____'}</Text>
+                        <Text style={styles.text}>
+                            {allValues.graduation_date ? formatDate(allValues.graduation_date) : "__________"}
+                        </Text>
+                    </View>
+
+
+
+
+                    <Text style={styles.title}>SKILLS ADICIONALES</Text>
+                    <Text style={styles.text}>{allValues.skill1 || '_____'}</Text>
+                    <Text style={styles.text}>{allValues.skill2 || '_____'}</Text>
+                </Page>
+            </Document>
+        );
+
+        const blob = await pdf(doc).toBlob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'CV.pdf';
+        link.click();
     };
 
     return (
