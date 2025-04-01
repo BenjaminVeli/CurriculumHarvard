@@ -31,6 +31,7 @@ const useModelCv = () => {
         const date = new Date(dateString);
         return new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" })
             .format(date)
+            .replace(" de ", " ") // Elimina "de" del formato
             .replace(/^\w/, (c) => c.toUpperCase()); // Capitaliza la primera letra
     };
 

@@ -48,7 +48,7 @@ const FormData = () => {
                                         {field.type === "textarea" ? (
                                             <textarea
                                                 {...register(field.name, {
-                                                    // required: field.required,
+                                                    required: field.required,
                                                     maxLength: maxLength,
                                                     onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                                 })}
@@ -60,7 +60,7 @@ const FormData = () => {
                                         ) : field.type === "date" ? (
                                             <input
                                                 {...register(field.name, {
-                                                    // required: field.required,
+                                                    required: field.required,
                                                     maxLength: maxLength,
                                                     onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                                 })}
@@ -74,7 +74,7 @@ const FormData = () => {
                                         ) : (
                                             <input
                                                 {...register(field.name, {
-                                                    // required: field.required,
+                                                    required: field.required,
                                                     maxLength: maxLength,
                                                     onChange: (e) => handleInputChange({ e, fieldName: field.name })
                                                 })}

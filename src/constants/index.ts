@@ -62,7 +62,11 @@ export const formSteps = [
                 name: "profileSummary",
                 label: "Resumen sobre tu perfil :",
                 type: "textarea",
-                max: "300",
+                max: "330",
+                help: {
+                    text1: "Destaca logros medibles y concretos: Aumenté, Reduje, Implementé, Lideré, Optimizé…",
+                    text2: "Ejemplo: Más de 15 años de experiencia como Desarrollador de Software. Lideré el desarrollo FrontEnd en Adevinta, logrando un 40% de mejora en la entrega de productos, un 25% en rendimiento web y una plataforma unificada. Como Divulgador, tengo el canal de programación más visto de Twitch en español.",
+                },
                 required: true
             }
         ]
@@ -115,45 +119,45 @@ export const formSteps = [
             {
                 name: "experience1_activity1",
                 label: "Descripción del Proyecto :",
-                type: "text",
+                type: "textarea",
                 help: {
                     text1: "Usa verbos de acción: Optimizar, Mejorar, Desarrollar, Implementar, Diseñar, Facilitar, Integrar…",
-                    text2: "Ejemplo: Desarrollé una plataforma unificada de componentes y herramientas para los diferentes productos de la empresa para converger técnicamente y acelerar la entrega de producto.",
+                    text2: "Ejemplo: Desarrollé una aplicación web para gestionar reservas en restaurantes, permitiendo a los clientes elegir horarios y mesas de forma rápida y sencilla. Esto ayudó a reducir tiempos de espera y mejorar la experiencia de los usuarios.",
                 },
-                max: "175",
+                max: "250",
                 required: true
             },
             {
                 name: "experience1_activity2",
                 label: "Alcance del Proyecto :",
-                type: "text",
+                type: "textarea",
                 help: {
-                    text1: "Define el impacto y la escalabilidad del proyecto.",
-                    text2: "Ejemplo: Implementé prácticas de CI/CD para mejorar la eficiencia en la entrega de software, reduciendo errores y tiempos de despliegue en más de un 80%.",
+                    text1: "Define el impacto y la escalabilidad del proyecto. Explica cómo beneficia a la empresa, usuarios o clientes.",
+                    text2: "Ejemplo: El sistema fue implementado en más de 50 restaurantes, facilitando la administración de reservas y reduciendo cancelaciones en un 30%. Además, permitió a los dueños tomar decisiones basadas en datos sobre la demanda de mesas.",
                 },
-                max: "175",
+                max: "250",
                 required: true
             },
             {
                 name: "experience1_activity3",
                 label: "Mejoras Aplicadas :",
-                type: "text",
+                type: "textarea",
                 help: {
-                    text1: "Explica qué mejoras implementaste y su efecto.",
-                    text2: "Ejemplo: Lideré la mejora del rendimiento web de productos como Fotocasa e InfoJobs mentorizando con mejores prácticas, creando dashboards de DataDog y diseñando estrategias.",
+                    text1: "Detalla las mejoras implementadas y su efecto en el rendimiento, experiencia del usuario, costos o productividad.",
+                    text2: "Ejemplo: Optimizamos la velocidad de carga de la plataforma en un 50%, mejorando la navegación en dispositivos móviles. También añadimos notificaciones automáticas para recordar a los clientes sus reservas y evitar cancelaciones de último minuto.",
                 },
-                max: "175",
+                max: "250",
                 required: true
             },
             {
                 name: "experience1_activity4",
                 label: "Soluciones Innovadoras :",
-                type: "text",
+                type: "textarea",
                 help: {
-                    text1: "Menciona estrategias o tecnologías innovadoras que aplicaste.",
-                    text2: "Ejemplo: Aporté soluciones pioneras como usar Ship/Show/Ask como estrategia de trabajo en GitHub, Rust para acelerar compilaciones, paralelización de CI para optimizar tiempos y exploración de AWS para escalabilidad.",
+                    text1: "Destaca estrategias o tecnologías innovadoras que aplicaste y cómo diferenciaron tu proyecto.",
+                    text2: "Ejemplo: Integramos inteligencia artificial para sugerir horarios alternativos en caso de falta de disponibilidad, aumentando en un 20% la tasa de reservas exitosas. Además, implementamos un sistema de comentarios y calificaciones para mejorar la calidad del servicio.",
                 },
-                max: "270",
+                max: "250",
                 required: false
             },
         ]
@@ -206,23 +210,23 @@ export const formSteps = [
             {
                 name: "experience2_activity1",
                 label: "Proyecto Realizado :",
-                type: "text",
+                type: "textarea",
                 help: {
                     text1: "Usa verbos de acción: Optimizar, Mejorar, Desarrollar, Implementar, Diseñar, Facilitar, Integrar…",
-                    text2: "Ejemplo: Desarrollé y diseñé un sistema de gestión de alquileres en Java, optimizando la administración de cuartos, consumo de luz y agua.",
+                    text2: "Ejemplo: Implementé una plataforma web para la gestión de inventarios en pequeños negocios, reduciendo el tiempo de registro de productos y mejorando el control de stock.",
                 },
-                max: "130",
+                max: "200",
                 required: true
             },
             {
                 name: "experience2_activity2",
                 label: "Alcance del proyecto :",
-                type: "text",
+                type: "textarea",
                 help: {
                     text1: "Muestra números, ya que llaman mucho la atención de la persona que está leyendo.",
-                    text2: "Ejemplo: El proyecto fue implementado para 5 usuarios, permitiéndoles gestionar de manera eciente el uso de los recursos.",
+                    text2: "Ejemplo:  La solución fue adoptada por más de 15 negocios locales, mejorando la gestión de productos y reduciendo pérdidas por falta de control en un 40%.",
                 },
-                max: "130",
+                max: "200",
                 required: true
             },
         ]
@@ -275,12 +279,12 @@ export const formSteps = [
             {
                 name: "experience3_activity1",
                 label: "Proyecto Realizado :",
-                type: "text",
+                type: "textarea",
                 help: {
                     text1: "Breve descripción de tus funciones.",
-                    text2: "Ejemplo: Desarrollé y diseñé una landing page para ofrecer servicios de creación de páginas web.",
+                    text2: "Ejemplo: Diseñé e implementé un sistema de reservas en línea para un gimnasio, facilitando la gestión de horarios y optimizando la experiencia de los usuarios.",
                 },
-                max: "100",
+                max: "170",
                 required: false
             },
         ]
@@ -347,7 +351,7 @@ export const formSteps = [
                     text1: "Añade otra habilidad complementaria a tu perfil profesional (opcional).",
                     text2: "Ejemplo: Nivel intermedio de inglés en lectura, escritura y conversación."
                 },
-                max: "50",
+                max: "80",
                 required: false
             },
         ]

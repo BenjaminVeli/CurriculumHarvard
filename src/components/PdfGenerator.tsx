@@ -1,9 +1,24 @@
 "use client"
 import React from 'react';
-import { pdf } from '@react-pdf/renderer';
+import { pdf, Font } from '@react-pdf/renderer';
 import { Document, Page, Text, Link, StyleSheet, View } from '@react-pdf/renderer';
 import Pdf from "../assets/icons/pdf.svg"
 import useModelCv from '@/hooks/useModelCv';
+
+Font.register({
+    family: "STIXTwoText-Bold",
+    src: "/fonts/STIXTwoText-Bold.ttf",
+});
+
+Font.register({
+    family: "STIXTwoText-Italic",
+    src: "/fonts/STIXTwoText-Italic.ttf",
+});
+
+Font.register({
+    family: "STIXTwoText-Regular",
+    src: "/fonts/STIXTwoText-Regular.ttf",
+});
 
 const styles = StyleSheet.create({
     page: {
@@ -14,12 +29,29 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textAlign: 'center',
         marginBottom: 8,
+        fontWeight: 'bold',
+        fontFamily: 'STIXTwoText-Bold',
     },
     title: {
         fontSize: 12,
         textAlign: 'left',
-        marginBottom: 8,
+        marginBottom: 2,
         fontWeight: 'bold',
+        fontFamily: 'STIXTwoText-Bold',
+    },
+    titleTop: {
+        fontSize: 12,
+        textAlign: 'left',
+        marginTop: 8,
+        fontWeight: 'bold',
+        fontFamily: 'STIXTwoText-Bold',
+    },
+    horizontalLine: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#000000',
+        borderBottomStyle: 'solid',
+        width: '100%',
+        marginBottom: 10,
     },
     experienceContainer: {
         flexDirection: 'row',
@@ -30,26 +62,52 @@ const styles = StyleSheet.create({
     subTitle: {
         fontSize: 11,
         fontWeight: 'bold',
+        fontFamily: 'STIXTwoText-Bold',
     },
     text: {
         fontSize: 11,
         textAlign: 'left',
         marginBottom: 5,
+        fontFamily: 'STIXTwoText-Regular',
+    },
+    textItalic: {
+        fontSize: 11,
+        textAlign: 'left',
+        marginBottom: 5,
+        fontFamily: 'STIXTwoText-Italic',
+    },
+    textMarginLBottom: {
+        fontSize: 11,
+        textAlign: 'left',
+        marginLeft: 12,
+        marginRight: 20,
+        marginBottom: 30,
+        fontFamily: 'STIXTwoText-Regular',
+    },
+    textMarginLeftRightB: {
+        fontSize: 11,
+        textAlign: 'left',
+        marginLeft: 12,
+        marginRight: 20,
+        marginBottom: 10,
+        fontFamily: 'STIXTwoText-Regular',
     },
     resume: {
         fontSize: 10.5,
         textAlign: 'left',
         marginBottom: 8,
-        fontStyle: 'italic',
+        fontFamily: 'STIXTwoText-Italic',
     },
     contactInfo: {
         fontSize: 11,
         textAlign: 'center',
         marginBottom: 8,
+        fontFamily: 'STIXTwoText-Regular',
     },
     link: {
         fontSize: 11,
         color: '#1155cc',
+        fontFamily: 'STIXTwoText-Regular',
     }
 });
 
@@ -67,10 +125,10 @@ const PDFGenerator = () => {
                             {linkedinDisplay}
                         </Link>
                     </Text>
-                    {/* Un linea aca */}
+                    <View style={styles.horizontalLine} />
                     <Text style={styles.resume}>{allValues.profileSummary || '_____'}</Text>
-                    {/* Un linea aca */}
-                    <Text style={styles.title}>EXPERIENCIA PROFESIONAL</Text>
+                    <Text style={styles.titleTop}>EXPERIENCIA PROFESIONAL</Text>
+                    <View style={styles.horizontalLine} />
 
 
                     {/* EXPERIENCE 1 */}
@@ -82,15 +140,15 @@ const PDFGenerator = () => {
                     </View>
                     <View style={styles.experienceContainer}>
                         <Text style={styles.text}>{allValues.role1 || '_____'}</Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.textItalic}>
                             {`${allValues.experience1_start_date ? formatDate(allValues.experience1_start_date) : "__________"} – ${allValues.experience1_end_date ? formatDate(allValues.experience1_end_date) : "__________"}`}
                         </Text>
                     </View>
 
-                    <Text style={styles.text}>{allValues.experience1_activity1 || '_____'}</Text>
-                    <Text style={styles.text}>{allValues.experience1_activity2 || '_____'}</Text>
-                    <Text style={styles.text}>{allValues.experience1_activity3 || '_____'}</Text>
-                    <Text style={styles.text}>{allValues.experience1_activity4 || '_____'}</Text>
+                    <Text style={styles.textMarginLeftRightB}>•{"  "}{allValues.experience1_activity1 || '_____'}</Text>
+                    <Text style={styles.textMarginLeftRightB}>•{"  "}{allValues.experience1_activity2 || '_____'}</Text>
+                    <Text style={styles.textMarginLeftRightB}>•{"  "}{allValues.experience1_activity3 || '_____'}</Text>
+                    <Text style={styles.textMarginLBottom}>•{"  "}{allValues.experience1_activity4 || '_____'}</Text>
                     {/*--------------*/}
 
 
@@ -105,13 +163,13 @@ const PDFGenerator = () => {
                     </View>
                     <View style={styles.experienceContainer}>
                         <Text style={styles.text}>{allValues.role2 || '_____'}</Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.textItalic}>
                             {`${allValues.experience2_start_date ? formatDate(allValues.experience2_start_date) : "__________"} – ${allValues.experience2_end_date ? formatDate(allValues.experience2_end_date) : "__________"}`}
                         </Text>
                     </View>
 
-                    <Text style={styles.text}>{allValues.experience2_activity1 || '_____'}</Text>
-                    <Text style={styles.text}>{allValues.experience2_activity2 || '_____'}</Text>
+                    <Text style={styles.textMarginLeftRightB}>•{"  "}{allValues.experience2_activity1 || '_____'}</Text>
+                    <Text style={styles.textMarginLBottom}>•{"  "}{allValues.experience2_activity2 || '_____'}</Text>
                     {/*--------------*/}
 
 
@@ -126,12 +184,12 @@ const PDFGenerator = () => {
                     </View>
                     <View style={styles.experienceContainer}>
                         <Text style={styles.text}>{allValues.role3 || '_____'}</Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.textItalic}>
                             {`${allValues.experience3_start_date ? formatDate(allValues.experience3_start_date) : "__________"} – ${allValues.experience3_end_date ? formatDate(allValues.experience3_end_date) : "__________"}`}
                         </Text>
                     </View>
 
-                    <Text style={styles.text}>{allValues.experience3_activity1 || '_____'}</Text>
+                    <Text style={styles.textMarginLBottom}>•{"  "}{allValues.experience3_activity1 || '_____'}</Text>
                     {/*--------------*/}
 
 
@@ -139,16 +197,16 @@ const PDFGenerator = () => {
 
 
                     <Text style={styles.title}>EDUCACIÓN</Text>
-                    {/* Un linea aca */}
+                    <View style={styles.horizontalLine} />
                     <View style={styles.experienceContainer}>
-                        <Text style={styles.subTitle}>{allValues.studycenter || '_____'}</Text>
+                        <Text style={styles.subTitle}>{(allValues.studycenter || '_____').toUpperCase()}</Text>
                         <Text style={styles.subTitle}>
                             {`${allValues.studycenter_city || '_____'}, ${allValues.studycenter_country || '_____'}`}
                         </Text>
                     </View>
                     <View style={styles.experienceContainer}>
                         <Text style={styles.text}>{allValues.role3 || '_____'}</Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.textItalic}>
                             {allValues.graduation_date ? formatDate(allValues.graduation_date) : "__________"}
                         </Text>
                     </View>
@@ -156,9 +214,10 @@ const PDFGenerator = () => {
 
 
 
-                    <Text style={styles.title}>SKILLS ADICIONALES</Text>
-                    <Text style={styles.text}>{allValues.skill1 || '_____'}</Text>
-                    <Text style={styles.text}>{allValues.skill2 || '_____'}</Text>
+                    <Text style={styles.titleTop}>SKILLS ADICIONALES</Text>
+                    <View style={styles.horizontalLine} />
+                    <Text style={styles.textMarginLeftRightB}>•{"  "}{allValues.skill1 || '_____'}</Text>
+                    <Text style={styles.textMarginLeftRightB}>•{"  "}{allValues.skill2 || '_____'}</Text>
                 </Page>
             </Document>
         );
