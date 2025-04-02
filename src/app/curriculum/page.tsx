@@ -10,7 +10,7 @@ const geistStix = STIX_Two_Text({
 })
 
 export const metadata: Metadata = {
-    title: "Curriculum Harvard",
+    title: "SmartCv - Inicio",
 }
 
 const page = () => {
